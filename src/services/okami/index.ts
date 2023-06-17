@@ -17,11 +17,11 @@ const okamiServer = createApi({
 
     markWorkRead: builder.mutation<void, { id: string; chapter: number }>({
       query: ({ id, chapter }) => ({
-        url: `/work/update-chapater'/${id}`,
+        url: `/work/${id}/update-chapater`,
         body: {
           chapter,
         },
-        method: "PATCH",
+        method: "Patch",
       }),
       invalidatesTags: ["Work"],
     }),

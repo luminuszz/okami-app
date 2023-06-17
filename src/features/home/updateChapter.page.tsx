@@ -36,24 +36,26 @@ const UpdateChapterPage: React.FC<Props> = ({ route, navigation }) => {
       id: workId,
     })
       .unwrap()
-      .then(() =>
+      .then(() => {
         toast.show({
           render: () => (
             <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={5}>
               Marcado como lindo
             </Box>
           ),
-        })
-      )
-      .catch(() => {
+        });
+
+        navigation.push("Home");
+      })
+      .catch(() =>
         toast.show({
           render: () => (
             <Box bg="red.500" px="2" py="1" rounded="sm" mb={5}>
               Houve um erro ao marcar como lido
             </Box>
           ),
-        });
-      });
+        })
+      );
   };
 
   return (
