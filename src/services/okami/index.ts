@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAllWorksUnreadQuerySchema, type Work } from "./types";
+import { OKAMI_API_URL } from "@env";
 
 const baseUrl = "https://okami-api.daviribeiro.com";
 
