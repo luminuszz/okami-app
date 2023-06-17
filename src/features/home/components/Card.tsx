@@ -14,42 +14,15 @@ import {
 } from "native-base";
 import { type Work } from "../../../services/okami/types";
 import { Linking } from "react-native";
-import { useMarkWorkReadMutation } from "../../../services/okami";
 
 interface CardProps {
   data: Work;
+  onClickMarRead: (id: string, chapter: number) => void;
 }
 
-export const Card: React.FC<CardProps> = ({ data }) => {
+export const Card: React.FC<CardProps> = ({ data, onClickMarRead }) => {
   const handleOpenLink = async (): Promise<void> => {
     await Linking.openURL(data.url);
-  };
-
-  const toast = useToast();
-
-  const [markAsRead, { isLoading: isMarkingRead }] = useMarkWorkReadMutation();
-
-  const handleMarkAsRead = (): void => {
-    markAsRead(data.id)
-      .unwrap()
-      .then(() =>
-        toast.show({
-          render: () => (
-            <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={5}>
-              Marcado como lindo
-            </Box>
-          ),
-        })
-      )
-      .catch((err) => {
-        toast.show({
-          render: () => (
-            <Box bg="red.500" px="2" py="1" rounded="sm" mb={5}>
-              Houve um erro ao marcar como lido
-            </Box>
-          ),
-        });
-      });
   };
 
   return (
@@ -130,9 +103,9 @@ export const Card: React.FC<CardProps> = ({ data }) => {
               </Text>
             </HStack>
             <Button
-              onPress={handleMarkAsRead}
-              isLoading={isMarkingRead}
-              disabled={isMarkingRead}
+              onPress={() => {
+                onClickMarRead(data.id, data.chapter);
+              }}
               colorScheme="green"
               color="coolGray.600"
               _dark={{

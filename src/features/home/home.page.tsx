@@ -7,8 +7,11 @@ import { Card } from "./components/Card";
 import { useFetchAllWorksUnreadQuery } from "../../services/okami";
 import { useAppSelector } from "../../store/store";
 import { selectSearch } from "./home.slice";
+import { type AppRoute } from "../../routes/app.routes";
 
-const HomePage: React.FC = () => {
+interface Props extends AppRoute<"Home"> {}
+
+const HomePage: React.FC<Props> = ({ navigation }) => {
   const { data: works } = useFetchAllWorksUnreadQuery();
 
   const search = useAppSelector(selectSearch);
@@ -17,6 +20,13 @@ const HomePage: React.FC = () => {
     work.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  const handlePushToUpdateChapterPage = (
+    workId: string,
+    chapter: number
+  ): void => {
+    navigation.push("UpdateChapter", { workId, chapter });
+  };
+
   return (
     <Container>
       <Flex justifyContent="center" align="center" px="2">
@@ -24,8 +34,10 @@ const HomePage: React.FC = () => {
 
         <FlatList
           data={filteredWorks}
-          renderItem={({ item }) => <Card data={item} />}
-          mt={16}
+          renderItem={({ item }) => (
+            <Card onClickMarRead={handlePushToUpdateChapterPage} data={item} />
+          )}
+          mt={8}
           ItemSeparatorComponent={() => <View my="2" />}
           keyExtractor={(item) => item.id}
           contentContainerStyle={{

@@ -1,14 +1,16 @@
 import React from "react";
 import { NativeBaseProvider } from "native-base";
-import HomePage from "./features/home/home.page";
 import { Provider } from "react-redux";
 import Store from "./store/store";
-import UpdateChapterPage from "./features/home/updateChapter.page";
+import { NavigationContainer } from "@react-navigation/native";
+import AppRoutes from "./routes/app.routes";
 
 const App: React.FC = () => (
   <Provider store={Store}>
     <NativeBaseProvider>
-      <UpdateChapterPage />
+      <NavigationContainer>
+        <AppRoutes />
+      </NavigationContainer>
     </NativeBaseProvider>
   </Provider>
 );

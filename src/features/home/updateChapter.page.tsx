@@ -5,25 +5,35 @@ import {
   Button,
   Flex,
   Heading,
+  HStack,
+  IconButton,
   Input,
   useToast,
   VStack,
 } from "native-base";
 import { useMarkWorkReadMutation } from "../../services/okami";
+import { type AppRoute } from "../../routes/app.routes";
+import { AntDesign } from "@expo/vector-icons";
 
-const UpdateChapterPage: React.FC = () => {
-  const id = "";
+interface Props extends AppRoute<"UpdateChapter"> {}
 
-  const [chapter, setChapter] = useState("");
+const UpdateChapterPage: React.FC<Props> = ({ route, navigation }) => {
+  const { chapter: currentChapter, workId } = route.params;
+
+  const [chapter, setChapter] = useState(currentChapter.toString());
 
   const toast = useToast();
 
   const [markAsRead, { isLoading: isMarkingRead }] = useMarkWorkReadMutation();
 
+  const handleGoBack = (): void => {
+    navigation.goBack();
+  };
+
   const handleMarkAsRead = (): void => {
     markAsRead({
       chapter: Number(chapter),
-      id,
+      id: workId,
     })
       .unwrap()
       .then(() =>
@@ -48,10 +58,17 @@ const UpdateChapterPage: React.FC = () => {
 
   return (
     <Container>
-      <Flex mt="10">
-        <Heading color="gray.100" justifyContent="center">
-          Marcar como lido
-        </Heading>
+      <Flex mt="10" px="4">
+        <HStack justifyContent="space-between" alignItems="center">
+          <Heading color="gray.100" justifyContent="center">
+            Marcar como lido
+          </Heading>
+
+          <IconButton
+            onPress={handleGoBack}
+            icon={<AntDesign name="arrowleft" size={24} color="white" />}
+          />
+        </HStack>
 
         <VStack mt="10" space="5">
           <Input
