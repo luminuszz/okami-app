@@ -25,19 +25,15 @@ export const SearchBar: React.FC = () => {
     dispatch(homeActions.setSearch(value));
   };
 
-  const handleSearch = (): void => {
-    console.log({ search });
-  };
-
   return (
-    <Flex mt="10" flex="1" justifyContent="center" align="center">
+    <Flex mt="50px" flex="1" justifyContent="center" align="center">
       <Input
         placeholder="Pesquise"
         color="white"
         value={search}
         w="full"
         height="40px"
-        InputRightElement={<SearchButton onPress={handleSearch} />}
+        InputRightElement={<SearchButton onPress={() => {}} />}
         onChangeText={handleChange}
       />
     </Flex>

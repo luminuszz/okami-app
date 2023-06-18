@@ -12,20 +12,25 @@ import {
   Text,
 } from "native-base";
 import { type Work } from "../../../services/okami/types";
-import { Linking } from "react-native";
 
 interface CardProps {
   data: Work;
   onClickMarRead: (id: string, chapter: number) => void;
+  onClickCard: (id: string) => void;
 }
 
-export const Card: React.FC<CardProps> = ({ data, onClickMarRead }) => {
-  const handleOpenLink = async (): Promise<void> => {
-    await Linking.openURL(data.url);
-  };
-
+export const Card: React.FC<CardProps> = ({
+  data,
+  onClickMarRead,
+  onClickCard,
+}) => {
   return (
-    <Pressable alignItems="center" onPress={handleOpenLink as any}>
+    <Pressable
+      alignItems="center"
+      onPress={() => {
+        onClickCard(data.id);
+      }}
+    >
       <Box
         rounded="lg"
         overflow="hidden"

@@ -5,12 +5,16 @@ import {
 } from "@react-navigation/native-stack";
 import HomePage from "../features/home/home.page";
 import UpdateChapterPage from "../features/home/updateChapter.page";
+import UpdateWorkPage from "../features/work/updateWork.page";
 
 type AppRoutesParams = {
   Home: undefined;
   UpdateChapter: {
     workId: string;
     chapter: number;
+  };
+  UpdateWorkPage: {
+    workId: string;
   };
 };
 
@@ -26,6 +30,7 @@ const AppRoutes: React.FC = () => (
   >
     <Screen name="Home" component={HomePage} />
     <Screen name="UpdateChapter" component={UpdateChapterPage} />
+    <Screen name="UpdateWorkPage" component={UpdateWorkPage} />
   </Navigator>
 );
 

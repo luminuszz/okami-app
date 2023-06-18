@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { fetchAllWorksUnreadQuerySchema, type Work } from "./types";
+import {
+  fetchAllWorksUnreadQuerySchema,
+  type UpdateWorkInput,
+  type Work,
+  workSchema,
+} from "./types";
 import { OKAMI_API_URL } from "@env";
+import { map } from "lodash";
 
 const okamiServer = createApi({
   baseQuery: fetchBaseQuery({
@@ -10,7 +16,9 @@ const okamiServer = createApi({
   endpoints: (builder) => ({
     fetchAllWorksUnread: builder.query<Work[], void>({
       query: () => ({ url: "/work/fetch-for-workers-unread" }),
-      providesTags: ["Work"],
+      providesTags: (results) => {
+        return map(results, (work) => ({ type: "Work", id: work.id }));
+      },
       transformResponse: (data) => fetchAllWorksUnreadQuerySchema.parse(data),
     }),
 
@@ -24,10 +32,40 @@ const okamiServer = createApi({
       }),
       invalidatesTags: ["Work"],
     }),
+
+    getOneWork: builder.query<Work, string>({
+      query: (id) => ({ url: `/work/find/${id}`, method: "GET" }),
+      providesTags: (result) => [{ type: "Work", id: result?.id }],
+      transformResponse: (data) => {
+        return workSchema.parse(data);
+      },
+    }),
+
+    updateWork: builder.mutation<void, UpdateWorkInput>({
+      query: ({ id, data }) => ({
+        url: "/work/update-work",
+        method: "PUT",
+        body: {
+          id,
+          data,
+        },
+      }),
+
+      invalidatesTags: (_, __, params) => [
+        {
+          type: "Work",
+          id: params.id,
+        },
+      ],
+    }),
   }),
 });
 
-export const { useFetchAllWorksUnreadQuery, useMarkWorkReadMutation } =
-  okamiServer;
+export const {
+  useFetchAllWorksUnreadQuery,
+  useMarkWorkReadMutation,
+  useGetOneWorkQuery,
+  useUpdateWorkMutation,
+} = okamiServer;
 
 export default okamiServer;
