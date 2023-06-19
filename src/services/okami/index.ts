@@ -58,6 +58,10 @@ const okamiServer = createApi({
         },
       ],
     }),
+
+    refreshWorks: builder.query<void, void>({
+      query: () => ({ url: "/work/refresh-chapters", method: "GET" }),
+    }),
   }),
 });
 
@@ -66,6 +70,7 @@ export const {
   useMarkWorkReadMutation,
   useGetOneWorkQuery,
   useUpdateWorkMutation,
+  useLazyRefreshWorksQuery,
 } = okamiServer;
 
 export default okamiServer;

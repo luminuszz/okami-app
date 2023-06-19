@@ -33,7 +33,6 @@ export const SearchBar: React.FC = () => {
         value={search}
         w="full"
         height="40px"
-        InputRightElement={<SearchButton onPress={() => {}} />}
         onChangeText={handleChange}
       />
     </Flex>

@@ -57,10 +57,6 @@ export class Notifications {
     const listener = ExpoNotifications.addNotificationResponseReceivedListener(
       (response) => {
         console.log(response.notification);
-
-        const url = response.notification.request.content.data.url;
-
-        ///   void Linking.openURL(url);
       }
     );
 
