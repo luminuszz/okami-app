@@ -26,9 +26,9 @@ import { AntDesign } from "@expo/vector-icons";
 interface Props extends AppRoute<"UpdateWorkPage"> {}
 
 const updateWorkSchema = z.object({
-  name: z.string().optional(),
-  url: z.string().optional(),
-  chapter: z.number().optional(),
+  name: z.string(),
+  url: z.string(),
+  chapter: z.number(),
 });
 
 type UpdateWorkForm = z.infer<typeof updateWorkSchema>;
@@ -42,14 +42,17 @@ const UpdateWorkPage: React.FC<Props> = ({ route, navigation }) => {
   const { control, handleSubmit } = useForm<UpdateWorkForm>({
     resolver: zodResolver(updateWorkSchema),
     values: {
-      name: work?.name,
-      url: work?.url,
-      chapter: work?.chapter,
+      name: work?.name || "",
+      url: work?.url || "",
+      chapter: work?.chapter || 0,
     },
-    defaultValues: {
-      name: "",
-      url: "",
-      chapter: 0,
+
+    defaultValues: async () => {
+      return {
+        name: work?.name || "",
+        url: work?.url || "",
+        chapter: work?.chapter || 0,
+      };
     },
   });
 

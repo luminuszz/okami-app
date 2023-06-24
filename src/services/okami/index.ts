@@ -12,12 +12,20 @@ const okamiServer = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: OKAMI_API_URL,
   }),
-  tagTypes: ["Work"],
+  tagTypes: ["Work", "WorkRead", "WorkUnread"],
   endpoints: (builder) => ({
     fetchAllWorksUnread: builder.query<Work[], void>({
       query: () => ({ url: "/work/fetch-for-workers-unread" }),
       providesTags: (results) => {
-        return map(results, (work) => ({ type: "Work", id: work.id }));
+        return map(results, (work) => ({ type: "WorkUnread", id: work.id }));
+      },
+      transformResponse: (data) => fetchAllWorksUnreadQuerySchema.parse(data),
+    }),
+
+    fetchAllWorksRead: builder.query<Work[], void>({
+      query: () => ({ url: "/work/fetch-for-workers-read" }),
+      providesTags: (results) => {
+        return map(results, (work) => ({ type: "WorkRead", id: work.id }));
       },
       transformResponse: (data) => fetchAllWorksUnreadQuerySchema.parse(data),
     }),
@@ -31,6 +39,14 @@ const okamiServer = createApi({
         method: "Patch",
       }),
       invalidatesTags: ["Work"],
+    }),
+
+    markWorkFinished: builder.mutation<void, { id: string }>({
+      query: ({ id }) => ({
+        url: `/work/mark-finished/${id}`,
+        method: "Patch",
+      }),
+      invalidatesTags: ["WorkRead"],
     }),
 
     getOneWork: builder.query<Work, string>({
@@ -71,6 +87,8 @@ export const {
   useGetOneWorkQuery,
   useUpdateWorkMutation,
   useLazyRefreshWorksQuery,
+  useFetchAllWorksReadQuery,
+  useMarkWorkFinishedMutation,
 } = okamiServer;
 
 export default okamiServer;

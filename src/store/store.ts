@@ -9,9 +9,8 @@ import okamiServer from "../services/okami";
 
 const Store = configureStore({
   devTools: false,
-  middleware: (getDefaultMiddleware) => [
-    ...getDefaultMiddleware().concat(okamiServer.middleware as any),
-  ],
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(okamiServer.middleware),
   reducer: {
     [homeSlice.name]: homeSlice.reducer,
     [okamiServer.reducerPath]: okamiServer.reducer,

@@ -1,17 +1,13 @@
 import React, { useEffect } from "react";
 
 import Container from "../../components/Container";
-import { FlatList, Flex, HStack, IconButton, Spinner, View } from "native-base";
+import { Button, FlatList, Flex, HStack, View } from "native-base";
 import { SearchBar } from "./components/SearchBar";
 import { Card } from "./components/Card";
-import {
-  useFetchAllWorksUnreadQuery,
-  useLazyRefreshWorksQuery,
-} from "../../services/okami";
+import { useFetchAllWorksUnreadQuery } from "../../services/okami";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { homeActions, selectSearch } from "./home.slice";
 import { type AppRoute } from "../../routes/app.routes";
-import { EvilIcons } from "@expo/vector-icons";
 import { RefreshWorksButton } from "./components/RefreshWorksButton";
 
 interface Props extends AppRoute<"Home"> {}
@@ -38,6 +34,8 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
   };
 
   useEffect(() => {
+    homeActions.setSearch("");
+
     return () => {
       dispatch(homeActions.setSearch(""));
     };
@@ -46,6 +44,16 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
   return (
     <Container>
       <Flex px="2">
+        <Flex alignItems="flex-end" mt="8">
+          <Button
+            onPress={() => {
+              navigation.push("MarkWorkFinishedPage");
+            }}
+          >
+            Finalizar Obra
+          </Button>
+        </Flex>
+
         <HStack justifyContent="center" alignItems="center">
           <SearchBar />
           <RefreshWorksButton />

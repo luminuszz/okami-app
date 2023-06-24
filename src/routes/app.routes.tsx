@@ -6,6 +6,7 @@ import {
 import HomePage from "../features/home/home.page";
 import UpdateChapterPage from "../features/home/updateChapter.page";
 import UpdateWorkPage from "../features/work/updateWork.page";
+import MarkWorkFinishedPage from "../features/work/markWorkFinished.page";
 
 type AppRoutesParams = {
   Home: undefined;
@@ -16,6 +17,7 @@ type AppRoutesParams = {
   UpdateWorkPage: {
     workId: string;
   };
+  MarkWorkFinishedPage: undefined;
 };
 
 export type AppRoute<Route extends keyof AppRoutesParams> =
@@ -31,6 +33,7 @@ const AppRoutes: React.FC = () => (
     <Screen name="Home" component={HomePage} />
     <Screen name="UpdateChapter" component={UpdateChapterPage} />
     <Screen name="UpdateWorkPage" component={UpdateWorkPage} />
+    <Screen name="MarkWorkFinishedPage" component={MarkWorkFinishedPage} />
   </Navigator>
 );
 

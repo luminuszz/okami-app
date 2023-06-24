@@ -1,20 +1,7 @@
 import React from "react";
-import { Flex, Icon, Input, Pressable } from "native-base";
-import { Feather } from "@expo/vector-icons";
+import { Flex, Input } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { homeActions, selectSearch } from "../home.slice";
-
-interface SearchBarButtonProps {
-  onPress: () => void;
-}
-
-const SearchButton: React.FC<SearchBarButtonProps> = ({ onPress }) => {
-  return (
-    <Pressable px="3" onPress={onPress}>
-      <Icon as={<Feather name="search" size={50} color="black" />} />
-    </Pressable>
-  );
-};
 
 export const SearchBar: React.FC = () => {
   const search = useAppSelector(selectSearch);
