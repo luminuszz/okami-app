@@ -6,6 +6,7 @@ export const workSchema = z.object({
   url: z.string(),
   hasNewChapter: z.boolean(),
   chapter: z.number(),
+  isFinished: z.boolean(),
 });
 
 export const updateWorkSchema = z.object({

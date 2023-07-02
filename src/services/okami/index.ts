@@ -89,6 +89,7 @@ export const {
   useLazyRefreshWorksQuery,
   useFetchAllWorksReadQuery,
   useMarkWorkFinishedMutation,
+  endpoints,
 } = okamiServer;
 
 export default okamiServer;

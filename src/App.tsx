@@ -18,11 +18,11 @@ const App: React.FC = () => {
   return (
     <Provider store={Store}>
       <StatusBar translucent barStyle="default" />
-      <NativeBaseProvider>
-        <NavigationContainer>
+      <NavigationContainer>
+        <NativeBaseProvider>
           <AppRoutes />
-        </NavigationContainer>
-      </NativeBaseProvider>
+        </NativeBaseProvider>
+      </NavigationContainer>
     </Provider>
   );
 };

@@ -8,7 +8,7 @@ import UpdateChapterPage from "../features/home/updateChapter.page";
 import UpdateWorkPage from "../features/work/updateWork.page";
 import MarkWorkFinishedPage from "../features/work/markWorkFinished.page";
 
-type AppRoutesParams = {
+export type AppRoutesParams = {
   Home: undefined;
   UpdateChapter: {
     workId: string;
@@ -26,10 +26,7 @@ export type AppRoute<Route extends keyof AppRoutesParams> =
 const { Navigator, Screen } = createNativeStackNavigator<AppRoutesParams>();
 
 const AppRoutes: React.FC = () => (
-  <Navigator
-    screenOptions={{ headerShown: false, contentStyle: { marginTop: 12 } }}
-    initialRouteName="Home"
-  >
+  <Navigator screenOptions={{ headerShown: false }} initialRouteName="Home">
     <Screen name="Home" component={HomePage} />
     <Screen name="UpdateChapter" component={UpdateChapterPage} />
     <Screen name="UpdateWorkPage" component={UpdateWorkPage} />

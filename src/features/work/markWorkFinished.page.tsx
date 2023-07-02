@@ -20,7 +20,7 @@ import { useAppToast } from "../../components/Toast";
 
 interface Props extends AppRoute<"MarkWorkFinishedPage"> {}
 
-const MarkWorkFinishedPage: React.FC<Props> = ({ route, navigation }) => {
+const MarkWorkFinishedPage: React.FC<Props> = ({ navigation }) => {
   const { data, isLoading } = useFetchAllWorksReadQuery();
   const toast = useAppToast();
 
@@ -44,6 +44,8 @@ const MarkWorkFinishedPage: React.FC<Props> = ({ route, navigation }) => {
         toast.show("houve um erro ", "error");
       });
   };
+
+  const works = data?.filter((work) => !work.isFinished);
 
   return (
     <Container>
@@ -73,7 +75,7 @@ const MarkWorkFinishedPage: React.FC<Props> = ({ route, navigation }) => {
               w="full"
               height="40px"
             >
-              {data?.map((work) => (
+              {works?.map((work) => (
                 <Select.Item key={work.id} label={work.name} value={work.id} />
               ))}
             </Select>

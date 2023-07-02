@@ -34,10 +34,11 @@ const updateWorkSchema = z.object({
 type UpdateWorkForm = z.infer<typeof updateWorkSchema>;
 
 const UpdateWorkPage: React.FC<Props> = ({ route, navigation }) => {
-  const workId = route.params?.workId || "646be8793d9fcd074c3d62f5";
-  const { data: work, isLoading } = useGetOneWorkQuery(workId);
-  const [updateWork, { isLoading: isUpdating }] = useUpdateWorkMutation();
   const { show } = useAppToast();
+  const workId = route.params?.workId;
+
+  const { data: work, isLoading, isFetching } = useGetOneWorkQuery(workId);
+  const [updateWork, { isLoading: isUpdating }] = useUpdateWorkMutation();
 
   const { control, handleSubmit } = useForm<UpdateWorkForm>({
     resolver: zodResolver(updateWorkSchema),
@@ -45,14 +46,6 @@ const UpdateWorkPage: React.FC<Props> = ({ route, navigation }) => {
       name: work?.name || "",
       url: work?.url || "",
       chapter: work?.chapter || 0,
-    },
-
-    defaultValues: async () => {
-      return {
-        name: work?.name || "",
-        url: work?.url || "",
-        chapter: work?.chapter || 0,
-      };
     },
   });
 
@@ -66,12 +59,12 @@ const UpdateWorkPage: React.FC<Props> = ({ route, navigation }) => {
         show("Obra atualizada com sucesso", "success");
         handleGoBack();
       })
-      .catch((e) => {
+      .catch(() => {
         show("Houve um erro ao tentar atualizar a obra", "error");
       });
   };
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <Container>
         <Flex flex="1" justifyContent="center" alignItems="center">

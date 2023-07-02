@@ -2,16 +2,17 @@ import React from "react";
 import {
   AspectRatio,
   Box,
-  Button,
   Center,
   Heading,
   HStack,
+  IconButton,
   Image,
-  Pressable,
   Stack,
   Text,
+  useNativeBase,
 } from "native-base";
 import { type Work } from "../../../services/okami/types";
+import { Entypo } from "@expo/vector-icons";
 
 interface CardProps {
   data: Work;
@@ -24,89 +25,87 @@ export const Card: React.FC<CardProps> = ({
   onClickMarRead,
   onClickCard,
 }) => {
+  const { theme } = useNativeBase();
+
   return (
-    <Pressable
-      alignItems="center"
-      onPress={() => {
-        onClickCard(data.id);
+    <Box
+      rounded="lg"
+      overflow="hidden"
+      borderColor="blueGray.600"
+      borderWidth="1"
+      _dark={{
+        borderColor: "blueGray.600",
+        backgroundColor: "blueGray.600",
+      }}
+      _web={{
+        shadow: 2,
+        borderWidth: 0,
+      }}
+      _light={{
+        backgroundColor: "blueGray.800",
       }}
     >
-      <Box
-        rounded="lg"
-        overflow="hidden"
-        borderColor="blueGray.600"
-        borderWidth="1"
-        _dark={{
-          borderColor: "blueGray.600",
-          backgroundColor: "blueGray.600",
-        }}
-        _web={{
-          shadow: 2,
-          borderWidth: 0,
-        }}
-        _light={{
-          backgroundColor: "blueGray.800",
-        }}
-      >
-        <Box>
-          <AspectRatio w="100%" ratio={16 / 9}>
-            <Image
-              source={{
-                uri: "https://github.com/luminuszz/okami-workers/raw/master/images/okami-workers-logo.png",
-              }}
-              alt="image"
-            />
-          </AspectRatio>
-          <Center
-            bg="green.500"
-            _dark={{
-              bg: "green.400",
+      <Box>
+        <AspectRatio w="100%" ratio={16 / 9}>
+          <Image
+            source={{
+              uri: "https://github.com/luminuszz/okami-workers/raw/master/images/okami-workers-logo.png",
             }}
-            _text={{
-              color: "warmGray.50",
-              fontWeight: "700",
-              fontSize: "xs",
-            }}
-            position="absolute"
-            bottom="0"
-            px="3"
-            py="1.5"
-          >
-            CAPITULO NOVO
-          </Center>
-        </Box>
-        <Stack p="4" space={3}>
-          <Stack space={2}>
-            <Heading size="lg" ml="-1" color="gray.100" isTruncated>
-              {data?.name}
-            </Heading>
-            <Text
-              fontSize="md"
-              _light={{
-                color: "yellow.500",
-              }}
-              _dark={{
-                color: "violet.400",
-              }}
-              fontWeight="500"
-              ml="-0.5"
-              mt="-1"
-            ></Text>
-          </Stack>
+            alt="image"
+          />
+        </AspectRatio>
 
-          <HStack alignItems="center" space={4} justifyContent="space-between">
-            <HStack alignItems="center">
-              <Text
-                color="gray.100"
-                _dark={{
-                  color: "warmGray.200",
-                }}
-                fontWeight="400"
-              >
-                {`Ultimo capitulo lido: ${data?.chapter}`}
-              </Text>
-            </HStack>
-            <Button
+        <Center
+          bg="green.500"
+          _dark={{
+            bg: "green.400",
+          }}
+          _text={{
+            color: "warmGray.50",
+            fontWeight: "700",
+            fontSize: "xs",
+          }}
+          position="absolute"
+          bottom="0"
+          px="3"
+          py="1.5"
+        >
+          CAPITULO NOVO
+        </Center>
+      </Box>
+      <Stack p="4" space={3}>
+        <Stack space={2}>
+          <Heading size="lg" ml="-1" color="gray.100" isTruncated>
+            {data?.name}
+          </Heading>
+          <Text
+            fontSize="md"
+            _light={{
+              color: "yellow.500",
+            }}
+            _dark={{
+              color: "violet.400",
+            }}
+            fontWeight="500"
+            ml="-0.5"
+            mt="-1"
+          ></Text>
+        </Stack>
+
+        <HStack alignItems="center" space={4} justifyContent="space-between">
+          <HStack alignItems="center">
+            <Text
+              color="gray.100"
+              _dark={{
+                color: "warmGray.200",
+              }}
+              fontWeight="400"
+            >
+              {`Ultimo capitulo lido: ${data?.chapter}`}
+            </Text>
+          </HStack>
+          <HStack>
+            <IconButton
               onPress={() => {
                 onClickMarRead(data.id, data.chapter);
               }}
@@ -116,12 +115,36 @@ export const Card: React.FC<CardProps> = ({
                 color: "warmGray.200",
               }}
               fontWeight="400"
-            >
-              Marcar como lido
-            </Button>
+              icon={
+                <Entypo
+                  name="bookmark"
+                  size={24}
+                  color={theme.colors.green["500"]}
+                />
+              }
+            />
+
+            <IconButton
+              onPress={() => {
+                onClickCard(data.id);
+              }}
+              colorScheme="green"
+              color="coolGray.600"
+              _dark={{
+                color: "warmGray.200",
+              }}
+              fontWeight="400"
+              icon={
+                <Entypo
+                  name="edit"
+                  size={24}
+                  color={theme.colors.blueGray["500"]}
+                />
+              }
+            />
           </HStack>
-        </Stack>
-      </Box>
-    </Pressable>
+        </HStack>
+      </Stack>
+    </Box>
   );
 };
