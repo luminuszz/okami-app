@@ -38,7 +38,9 @@ const okamiServer = createApi({
         },
         method: "Patch",
       }),
-      invalidatesTags: ["Work"],
+      invalidatesTags: (_, __, params) => [
+        { type: "WorkUnread", id: params.id },
+      ],
     }),
 
     markWorkFinished: builder.mutation<void, { id: string }>({
