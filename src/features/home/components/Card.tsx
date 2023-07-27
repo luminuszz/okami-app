@@ -20,6 +20,9 @@ interface CardProps {
   onClickCard: (id: string) => void;
 }
 
+const defaultCardImage =
+  "https://okami-storage.s3.amazonaws.com/work-images/animes-default.jpg";
+
 export const Card: React.FC<CardProps> = ({
   data,
   onClickMarRead,
@@ -49,7 +52,7 @@ export const Card: React.FC<CardProps> = ({
         <AspectRatio w="100%" ratio={16 / 9}>
           <Image
             source={{
-              uri: "https://github.com/luminuszz/okami-workers/raw/master/images/okami-workers-logo.png",
+              uri: data.imageUrl || defaultCardImage,
             }}
             alt="image"
           />

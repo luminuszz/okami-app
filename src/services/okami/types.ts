@@ -7,6 +7,7 @@ export const workSchema = z.object({
   hasNewChapter: z.boolean(),
   chapter: z.number(),
   isFinished: z.boolean(),
+  imageUrl: z.string().url().nullable(),
 });
 
 export const updateWorkSchema = z.object({
