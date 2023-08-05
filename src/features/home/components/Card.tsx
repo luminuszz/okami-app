@@ -30,6 +30,8 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   const { theme } = useNativeBase();
 
+  console.log(data.imageUrl);
+
   return (
     <Box
       rounded="lg"
