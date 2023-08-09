@@ -94,7 +94,6 @@ const LoginPage: React.FC<Props> = () => {
             render={({ field }) => (
               <Input
                 color="gray.100"
-                type="password"
                 {...field}
                 onChangeText={field.onChange}
               />

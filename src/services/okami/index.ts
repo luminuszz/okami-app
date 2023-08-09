@@ -108,9 +108,9 @@ const okamiServer = createApi({
           data: { token },
         } = await queryFulfilled;
 
-        dispatch(setToken(token));
-
         await AsyncStorage.setItem("@okami:token", token);
+
+        dispatch(setToken(token));
       },
     }),
   }),

@@ -64,7 +64,9 @@ const Routes: React.FC = () => {
   const apDispatch = useAppDispatch();
 
   useEffect(() => {
-    void AsyncStorage.getItem("token").then((token) => {
+    void AsyncStorage.getItem("@okami:token").then((token) => {
+      console.log({ token });
+
       apDispatch(token ? setToken(token) : logout());
     });
   }, []);
