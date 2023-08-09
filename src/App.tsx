@@ -1,26 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NativeBaseProvider, StatusBar } from "native-base";
 import { Provider } from "react-redux";
 import Store from "./store/store";
 import { NavigationContainer } from "@react-navigation/native";
-import AppRoutes from "./routes/app.routes";
-import { notifications } from "./services/notifications";
+import Routes from "./routes/app.routes";
 
 const App: React.FC = () => {
-  useEffect(() => {
-    const removeSubscription = notifications.subscribeToPushNotifications();
-
-    return () => {
-      removeSubscription();
-    };
-  }, []);
-
   return (
     <Provider store={Store}>
       <StatusBar translucent barStyle="default" />
       <NavigationContainer>
         <NativeBaseProvider>
-          <AppRoutes />
+          <Routes />
         </NativeBaseProvider>
       </NavigationContainer>
     </Provider>

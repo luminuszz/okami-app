@@ -7,12 +7,24 @@ import {
 } from "./types";
 import { OKAMI_API_URL } from "@env";
 import { map } from "lodash";
+import { setToken } from "../../features/auth/auth.slice";
+import { type RootState } from "../../store/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const okamiServer = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: OKAMI_API_URL,
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).auth.token;
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
+
   tagTypes: ["Work", "WorkRead", "WorkUnread"],
+
   endpoints: (builder) => ({
     fetchAllWorksUnread: builder.query<Work[], void>({
       query: () => ({ url: "/work/fetch-for-workers-unread" }),
@@ -80,6 +92,27 @@ const okamiServer = createApi({
     refreshWorks: builder.query<void, void>({
       query: () => ({ url: "/work/refresh-chapters", method: "GET" }),
     }),
+
+    login: builder.mutation<
+      { token: string },
+      { email: string; password: string }
+    >({
+      query: (payload) => ({
+        url: "/auth/login",
+        method: "POST",
+        body: payload,
+      }),
+
+      onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
+        const {
+          data: { token },
+        } = await queryFulfilled;
+
+        dispatch(setToken(token));
+
+        await AsyncStorage.setItem("@okami:token", token);
+      },
+    }),
   }),
 });
 
@@ -91,7 +124,7 @@ export const {
   useLazyRefreshWorksQuery,
   useFetchAllWorksReadQuery,
   useMarkWorkFinishedMutation,
-  endpoints,
+  useLoginMutation,
 } = okamiServer;
 
 export default okamiServer;
