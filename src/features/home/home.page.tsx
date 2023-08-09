@@ -25,7 +25,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
   return (
     <Container>
       <Flex px="2">
-        <Flex alignItems="flex-end" mt="8">
+        <Flex alignItems="flex-end" mt="12">
           <Button
             onPress={() => {
               navigation.push("MarkWorkFinishedPage");
