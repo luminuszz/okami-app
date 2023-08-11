@@ -1,28 +1,27 @@
 import React, { useState } from "react";
 import Container from "../../components/Container";
 import {
-  Box,
   Button,
   Flex,
   Heading,
   HStack,
   IconButton,
   Input,
-  useToast,
   VStack,
 } from "native-base";
 import { useMarkWorkReadMutation } from "../../services/okami";
 import { type AppRoute } from "../../routes/app.routes";
 import { AntDesign } from "@expo/vector-icons";
+import { useAppToast } from "../../components/Toast";
 
 interface Props extends AppRoute<"UpdateChapter"> {}
 
 const UpdateChapterPage: React.FC<Props> = ({ route, navigation }) => {
+  const toast = useAppToast();
+
   const { chapter: currentChapter, workId } = route.params;
 
   const [chapter, setChapter] = useState(currentChapter.toString());
-
-  const toast = useToast();
 
   const [markAsRead, { isLoading: isMarkingRead }] = useMarkWorkReadMutation();
 
@@ -37,25 +36,13 @@ const UpdateChapterPage: React.FC<Props> = ({ route, navigation }) => {
     })
       .unwrap()
       .then(() => {
-        toast.show({
-          render: () => (
-            <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={5}>
-              Marcado como lindo
-            </Box>
-          ),
-        });
+        toast.show("Marcado como lido", "success");
 
         navigation.push("Home");
       })
-      .catch(() =>
-        toast.show({
-          render: () => (
-            <Box bg="red.500" px="2" py="1" rounded="sm" mb={5}>
-              Houve um erro ao marcar como lido
-            </Box>
-          ),
-        })
-      );
+      .catch(() => {
+        toast.show("Houve um erro ao marcar como lido", "error");
+      });
   };
 
   return (

@@ -1,10 +1,16 @@
 {
   "expo": {
     "name": "okami-app",
-    "slug": "okami-app",
+    "slug": "okami",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "f239cd3d-8bd7-4a02-972a-17cb0bfb7425"
+      }
+    },
+    "owner": "luminuszz"
   }
 }

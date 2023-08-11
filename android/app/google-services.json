@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "677617425477",
+    "project_id": "okami-deef9",
+    "storage_bucket": "okami-deef9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677617425477:android:67c1b6b048d806a791172c",
+        "android_client_info": {
+          "package_name": "com.okamiapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677617425477-mgnj882jej5f0npa9pmm6eni9q1hmiu2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOZd-HBT1_W5Rd0YeWYAvGJcHJ9hP_SE4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677617425477-mgnj882jej5f0npa9pmm6eni9q1hmiu2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

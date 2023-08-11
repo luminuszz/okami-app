@@ -6,15 +6,16 @@ import {
   useSelector,
 } from "react-redux";
 import okamiServer from "../services/okami";
+import { authSlice } from "../features/auth/auth.slice";
 
 const Store = configureStore({
   devTools: false,
-  middleware: (getDefaultMiddleware) => [
-    ...getDefaultMiddleware().concat(okamiServer.middleware as any),
-  ],
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(okamiServer.middleware),
   reducer: {
     [homeSlice.name]: homeSlice.reducer,
     [okamiServer.reducerPath]: okamiServer.reducer,
+    [authSlice.name]: authSlice.reducer,
   },
 });
 
