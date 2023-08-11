@@ -21,5 +21,14 @@ export const updateWorkSchema = z.object({
 
 export const fetchAllWorksUnreadQuerySchema = z.array(workSchema);
 
+export const UserSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string(),
+  avatarImageId: z.string().optional().nullable(),
+  avatarImageUrl: z.string().optional().nullable().default(""),
+});
+
+export type User = z.infer<typeof UserSchema>;
 export type Work = z.infer<typeof workSchema>;
 export type UpdateWorkInput = z.infer<typeof updateWorkSchema>;

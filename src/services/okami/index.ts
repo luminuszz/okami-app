@@ -2,6 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   fetchAllWorksUnreadQuerySchema,
   type UpdateWorkInput,
+  type User,
+  UserSchema,
   type Work,
   workSchema,
 } from "./types";
@@ -23,7 +25,7 @@ const okamiServer = createApi({
     },
   }),
 
-  tagTypes: ["Work", "WorkRead", "WorkUnread"],
+  tagTypes: ["Work", "WorkRead", "WorkUnread", "User"],
 
   endpoints: (builder) => ({
     fetchAllWorksUnread: builder.query<Work[], void>({
@@ -104,14 +106,19 @@ const okamiServer = createApi({
       }),
 
       onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
-        const {
-          data: { token },
-        } = await queryFulfilled;
+        const results = await queryFulfilled;
+
+        const { token } = results.data;
 
         await AsyncStorage.setItem("@okami:token", token);
 
         dispatch(setToken(token));
       },
+    }),
+
+    getCurrentUser: builder.query<User, void>({
+      query: () => ({ url: "/auth/user/me" }),
+      providesTags: ["User"],
     }),
   }),
 });
@@ -125,6 +132,7 @@ export const {
   useFetchAllWorksReadQuery,
   useMarkWorkFinishedMutation,
   useLoginMutation,
+  useGetCurrentUserQuery,
 } = okamiServer;
 
 export default okamiServer;

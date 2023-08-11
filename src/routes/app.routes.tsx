@@ -59,6 +59,8 @@ export const AuthRoutes: React.FC = () => (
 );
 
 const Routes: React.FC = () => {
+  console.log("Routes");
+
   const token = useAppSelector((state) => state.auth.token);
 
   const apDispatch = useAppDispatch();

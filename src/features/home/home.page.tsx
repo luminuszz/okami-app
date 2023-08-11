@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 
 import Container from "../../components/Container";
-import { Button, Flex, HStack } from "native-base";
+import { Flex, HStack } from "native-base";
 import { SearchBar } from "./components/SearchBar";
 import { useAppDispatch } from "../../store/store";
 import { homeActions } from "./home.slice";
 import { type AppRoute } from "../../routes/app.routes";
 import { RefreshWorksButton } from "./components/RefreshWorksButton";
 import { WorkList } from "./components/WorkList";
+import { Navbar } from "../../components/Navbar";
 
 interface Props extends AppRoute<"Home"> {}
 
@@ -24,17 +25,8 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
 
   return (
     <Container>
+      <Navbar />
       <Flex px="2">
-        <Flex alignItems="flex-end" mt="12">
-          <Button
-            onPress={() => {
-              navigation.push("MarkWorkFinishedPage");
-            }}
-          >
-            Finalizar Obra
-          </Button>
-        </Flex>
-
         <HStack justifyContent="center" alignItems="center">
           <SearchBar />
           <RefreshWorksButton />
