@@ -104,16 +104,6 @@ const okamiServer = createApi({
         method: "POST",
         body: payload,
       }),
-
-      onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
-        const results = await queryFulfilled;
-
-        const { token } = results.data;
-
-        await AsyncStorage.setItem("@okami:token", token);
-
-        dispatch(setToken(token));
-      },
     }),
 
     getCurrentUser: builder.query<User, void>({

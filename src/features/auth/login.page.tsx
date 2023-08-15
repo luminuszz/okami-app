@@ -15,6 +15,9 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppToast } from "../../components/Toast";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAppDispatch } from "../../store/store";
+import { setToken } from "./auth.slice";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -31,6 +34,7 @@ interface Props extends AuthRoute<"LoginPage"> {}
 const LoginPage: React.FC<Props> = () => {
   const { show } = useAppToast();
   const [makeLogin, { isLoading }] = useLoginMutation();
+  const dispatch = useAppDispatch();
 
   const {
     control,
@@ -46,7 +50,13 @@ const LoginPage: React.FC<Props> = () => {
 
   const handleLogin = (data: FormSchema): void => {
     makeLogin(data)
-      .then((response) => {
+      .unwrap()
+      .then(async ({ token }) => {
+        if (token) {
+          dispatch(setToken(token));
+          await AsyncStorage.setItem("@okami:token", token);
+        }
+
         show("Login feito com sucesso", "success");
       })
       .catch(() => {
