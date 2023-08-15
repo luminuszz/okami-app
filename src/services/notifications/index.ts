@@ -1,4 +1,5 @@
 import OneSignal from "react-native-onesignal";
+
 import { ONE_SIGNAL_APP_ID } from "@env";
 
 export const notificationService = async (): Promise<void> => {
