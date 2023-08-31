@@ -7,12 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { type AppRoutesParams } from "../../../routes/app.routes";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useFetchAllWorksUnreadQuery } from "../../../services/okami";
-import { Dimensions } from "react-native";
 import { compareDesc } from "date-fns";
-
-const { height } = Dimensions.get("screen");
-
-const naxHeight = height - 260;
 
 export const WorkList: React.FC = () => {
   const navigation =

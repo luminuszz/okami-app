@@ -11,6 +11,7 @@ import {
   Icon,
   IconButton,
   Image,
+  Pressable,
   Stack,
   Text,
   useNativeBase,
@@ -50,17 +51,22 @@ export const Card: React.FC<CardProps> = ({
 
   return (
     <Box borderRadius="3xl" position="relative" shadow={8}>
-      <Image
-        height="200"
-        w="full"
-        borderRadius="3xl"
-        resizeMode="cover"
-        source={{
-          uri: data?.imageUrl || defaultCardImage,
+      <Pressable
+        onPress={() => {
+          onClickMarRead(data.id, data.chapter);
         }}
-        alt="algo aqui"
-      />
-
+      >
+        <Image
+          height="200"
+          w="full"
+          borderRadius="3xl"
+          resizeMode="cover"
+          source={{
+            uri: data?.imageUrl || defaultCardImage,
+          }}
+          alt="algo aqui"
+        />
+      </Pressable>
       <HStack
         mt="3"
         justifyContent="space-between"
