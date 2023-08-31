@@ -8,7 +8,13 @@ interface Props {
 
 const Container: React.FC<Props> = ({ children }) => {
   return (
-    <Flex width="full" height="full" backgroundColor="blueGray.900" py="8">
+    <Flex
+      width="full"
+      height="full"
+      backgroundColor="blueGray.900"
+      py="8"
+      px="3"
+    >
       {children}
     </Flex>
   );

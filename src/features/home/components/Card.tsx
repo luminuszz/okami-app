@@ -1,24 +1,34 @@
 import React from "react";
+import { formatDistance } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import {
   AspectRatio,
+  Badge,
   Box,
   Center,
   Heading,
   HStack,
+  Icon,
   IconButton,
   Image,
   Stack,
   Text,
   useNativeBase,
+  ZStack,
 } from "native-base";
-import { type Work } from "../../../services/okami/types";
-import { Entypo } from "@expo/vector-icons";
+import { type Work, WORK_CATEGORY } from "../../../services/okami/types";
+import { Feather } from "@expo/vector-icons";
 
 interface CardProps {
   data: Work;
   onClickMarRead: (id: string, chapter: number) => void;
   onClickCard: (id: string) => void;
 }
+
+const emote = {
+  [WORK_CATEGORY.enum.MANGA]: "📖",
+  [WORK_CATEGORY.enum.ANIME]: "📺",
+};
 
 const defaultCardImage =
   "https://okami-storage.s3.amazonaws.com/work-images/animes-default.jpg";
@@ -28,126 +38,75 @@ export const Card: React.FC<CardProps> = ({
   onClickMarRead,
   onClickCard,
 }) => {
-  const { theme } = useNativeBase();
+  const atTime = formatDistance(data.updatedAt, new Date(), {
+    addSuffix: true,
+    includeSeconds: true,
+    locale: ptBR,
+  });
+
+  const category =
+    data.category.toLowerCase().charAt(0).toUpperCase() +
+    data.category.toLowerCase().slice(1);
 
   return (
-    <Box
-      rounded="lg"
-      overflow="hidden"
-      borderColor="blueGray.600"
-      borderWidth="1"
-      _dark={{
-        borderColor: "blueGray.600",
-        backgroundColor: "blueGray.600",
-      }}
-      _web={{
-        shadow: 2,
-        borderWidth: 0,
-      }}
-      _light={{
-        backgroundColor: "blueGray.800",
-      }}
-    >
-      <Box>
-        <AspectRatio w="100%" ratio={16 / 9}>
-          <Image
-            source={{
-              uri: data.imageUrl || defaultCardImage,
-            }}
-            alt="image"
-          />
-        </AspectRatio>
+    <Box borderRadius="3xl" position="relative" shadow={8}>
+      <Image
+        height="200"
+        w="full"
+        borderRadius="3xl"
+        resizeMode="cover"
+        source={{
+          uri: data?.imageUrl || defaultCardImage,
+        }}
+        alt="algo aqui"
+      />
 
-        <Center
-          bg="green.500"
-          _dark={{
-            bg: "green.400",
-          }}
-          _text={{
-            color: "warmGray.50",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-          position="absolute"
-          bottom="0"
-          px="3"
-          py="1.5"
-        >
-          CAPITULO NOVO
-        </Center>
-      </Box>
-      <Stack p="4" space={3}>
-        <Stack space={2}>
-          <Heading size="lg" ml="-1" color="gray.100" isTruncated>
-            {data?.name}
-          </Heading>
-          <Text
-            fontSize="md"
-            _light={{
-              color: "yellow.500",
-            }}
-            _dark={{
-              color: "violet.400",
-            }}
-            fontWeight="500"
-            ml="-0.5"
-            mt="-1"
-          ></Text>
-        </Stack>
+      <HStack
+        mt="3"
+        justifyContent="space-between"
+        alignItems="center"
+        px="2"
+        space="2"
+      >
+        <Text maxW="190" isTruncated color="gray.100" fontWeight="bold">
+          {data.name}
+        </Text>
 
-        <HStack alignItems="center" space={4} justifyContent="space-between">
-          <HStack alignItems="center">
-            <Text
-              color="gray.100"
-              _dark={{
-                color: "warmGray.200",
-              }}
-              fontWeight="400"
-            >
-              {`Ultimo capitulo lido: ${data?.chapter}`}
-            </Text>
-          </HStack>
-          <HStack>
-            <IconButton
-              onPress={() => {
-                onClickMarRead(data.id, data.chapter);
-              }}
-              colorScheme="green"
-              color="coolGray.600"
-              _dark={{
-                color: "warmGray.200",
-              }}
-              fontWeight="400"
-              icon={
-                <Entypo
-                  name="bookmark"
-                  size={24}
-                  color={theme.colors.green["500"]}
-                />
-              }
-            />
-
-            <IconButton
-              onPress={() => {
-                onClickCard(data.id);
-              }}
-              colorScheme="green"
-              color="coolGray.600"
-              _dark={{
-                color: "warmGray.200",
-              }}
-              fontWeight="400"
-              icon={
-                <Entypo
-                  name="edit"
-                  size={24}
-                  color={theme.colors.blueGray["500"]}
-                />
-              }
-            />
-          </HStack>
+        <HStack alignItems="center" space="1">
+          <Icon as={<Feather name="clock" size={24} color="white" />} />
+          <Text fontWeight="medium" maxW="200" isTruncated color="gray.100">
+            {atTime}
+          </Text>
         </HStack>
-      </Stack>
+      </HStack>
+
+      <Badge
+        borderRadius="2xl"
+        px="4"
+        m="4"
+        right="0"
+        top="0"
+        position="absolute"
+        backgroundColor="green.500"
+      >
+        <Text fontWeight="bold" fontSize="xs" color="gray.100">
+          Novo capítulo
+        </Text>
+      </Badge>
+
+      <Badge
+        borderRadius="2xl"
+        px="4"
+        m="2"
+        left="0"
+        bottom="10"
+        position="absolute"
+        backgroundColor={"gray.100"}
+      >
+        <Text fontWeight="bold" fontSize="xs" color="gray.500">
+          {` ${category} ${emote[data.category]}`}
+        </Text>
+      </Badge>
     </Box>
   );
 };

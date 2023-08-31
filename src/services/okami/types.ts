@@ -1,4 +1,7 @@
 import { z } from "zod";
+import { parseISO } from "date-fns";
+
+export const WORK_CATEGORY = z.enum(["MANGA", "ANIME"]);
 
 export const workSchema = z.object({
   id: z.string(),
@@ -8,6 +11,8 @@ export const workSchema = z.object({
   chapter: z.number(),
   isFinished: z.boolean(),
   imageUrl: z.string().url().nullable(),
+  updatedAt: z.string().transform((value) => parseISO(value)),
+  category: WORK_CATEGORY,
 });
 
 export const updateWorkSchema = z.object({

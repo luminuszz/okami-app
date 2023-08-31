@@ -8,8 +8,10 @@ import { type AppRoutesParams } from "../../../routes/app.routes";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useFetchAllWorksUnreadQuery } from "../../../services/okami";
 import { Dimensions } from "react-native";
+import { compareDesc } from "date-fns";
 
 const { height } = Dimensions.get("screen");
+
 const naxHeight = height - 260;
 
 export const WorkList: React.FC = () => {
@@ -22,9 +24,11 @@ export const WorkList: React.FC = () => {
 
   const filteredWorks = useMemo(
     () =>
-      works?.filter((work) =>
-        work.name.toLowerCase().includes(search.toLowerCase())
-      ),
+      works
+        ?.filter((work) =>
+          work.name.toLowerCase().includes(search.toLowerCase())
+        )
+        .sort((a, b) => compareDesc(a.updatedAt, b.updatedAt)),
     [works, search]
   );
 
@@ -46,7 +50,10 @@ export const WorkList: React.FC = () => {
 
   return (
     <FlatList
-      maxHeight={naxHeight}
+      maxHeight="full"
+      contentContainerStyle={{ paddingBottom: 80 }}
+      showsVerticalScrollIndicator={false}
+      mb="50px"
       data={filteredWorks}
       renderItem={({ item }) => (
         <Card

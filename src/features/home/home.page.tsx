@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 
 import Container from "../../components/Container";
-import { Flex, HStack } from "native-base";
-import { SearchBar } from "./components/SearchBar";
+import { Flex, Heading, HStack } from "native-base";
 import { useAppDispatch } from "../../store/store";
 import { homeActions } from "./home.slice";
 import { type AppRoute } from "../../routes/app.routes";
-import { RefreshWorksButton } from "./components/RefreshWorksButton";
 import { WorkList } from "./components/WorkList";
 import { Navbar } from "../../components/Navbar";
 
@@ -27,11 +25,6 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
     <Container>
       <Navbar />
       <Flex px="2">
-        <HStack justifyContent="center" alignItems="center">
-          <SearchBar />
-          <RefreshWorksButton />
-        </HStack>
-
         <WorkList />
       </Flex>
     </Container>
